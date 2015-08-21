@@ -10,6 +10,7 @@
 namespace EventBand\Transport\Amqp\Driver;
 
 use EventBand\Event;
+use EventBand\PriopritizedEvent;
 use EventBand\Serializer\EventSerializer;
 use EventBand\Serializer\SerializerException;
 use EventBand\Transport\Amqp\Driver\AmqpMessage;
@@ -40,6 +41,9 @@ class MessageSerializeConverter implements MessageEventConverter
         try {
             $msg = $this->prototype ? CustomAmqpMessage::createCopy($this->prototype) : new CustomAmqpMessage();
             $msg->setBody($this->serializer->serializeEvent($event));
+            if ($event instanceof PriopritizedEvent){
+                $msg->setPriority($event->getPriority());
+            }
 
             return $msg;
         } catch (SerializerException $e) {
