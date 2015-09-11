@@ -18,7 +18,7 @@ use EventBand\Transport\Amqp\Definition\QueueDefinition;
  * @author Kirill chEbba Chebunin <iam@chebba.org>
  * @license http://opensource.org/licenses/mit-license.php MIT
  */
-interface AmqpDriver
+interface AmqpDriver extends AmqpDriverConnection
 {
     public function publish(MessagePublication $publication, $exchange, $routingKey = '');
 
