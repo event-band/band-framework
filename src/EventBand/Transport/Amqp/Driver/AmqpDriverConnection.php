@@ -34,4 +34,14 @@ interface AmqpDriverConnection
      * @return bool
      */
     public function close();
+
+    /**
+     * @return bool
+     */
+    public function isClosed();
+
+    /**
+     * @return bool
+     */
+    public function reset();
 }
