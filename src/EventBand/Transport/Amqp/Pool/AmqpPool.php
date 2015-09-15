@@ -35,7 +35,7 @@ class AmqpPool
     public function getDrivers()
     {
         return array_filter($this->drivers, function (AmqpDriver $driver) {
-            return !$driver->isClosed();
+            return !$driver->getClosed();
         });
     }
 
@@ -45,7 +45,7 @@ class AmqpPool
     public function hasDriver()
     {
         foreach ($this->drivers as $driver) {
-            if (!$driver->isClosed()) {
+            if (!$driver->getClosed()) {
                 return true;
             }
         }

@@ -21,27 +21,45 @@ use EventBand\Transport\Amqp\Definition\QueueDefinition;
 interface AmqpDriverConnection
 {
     /**
-     * @return bool
+     * Connect. Should do nothing if connection is already connected
+     *
+     * @return void
+     * @throws DriverException
      */
     public function connect();
 
     /**
+     * Check if connection is connected
+     *
      * @return bool
      */
     public function isConnected();
 
     /**
-     * @return bool
+     * Close connection
+     *
+     * @return void
      */
     public function close();
 
     /**
-     * @return bool
+     * Get close time
+     *
+     * @return int Close time, 0 if connection was not closed
      */
-    public function isClosed();
+    public function getClosed();
 
     /**
+     * Check if connection is ready to be connected
+     *
      * @return bool
+     */
+    public function isReady();
+
+    /**
+     * Reset connection to ready state
+     *
+     * @return void
      */
     public function reset();
 }
