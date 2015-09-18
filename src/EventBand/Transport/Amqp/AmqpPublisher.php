@@ -31,7 +31,6 @@ use EventBand\Transport\PublishEventException;
 class AmqpPublisher implements EventPublisher
 {
     private $cluster;
-    private $driver;
     private $converter;
     private $exchange;
     private $router;
