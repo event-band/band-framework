@@ -10,6 +10,7 @@
 namespace EventBand\Transport\Amqp;
 
 use Che\LogStock\LoggerFactory;
+use EventBand\Transport\Amqp\Driver\AmqpCluster;
 use EventBand\Transport\Amqp\Driver\MessageConversionException;
 use EventBand\Transport\Amqp\Driver\MessageEventConverter;
 use EventBand\Transport\Amqp\Driver\AmqpDriver;
@@ -27,19 +28,19 @@ use EventBand\Transport\ReadEventException;
  */
 class AmqpConsumer implements EventConsumer
 {
-    private $driver;
+    private $cluster;
     private $converter;
     private $queue;
     private $logger;
 
     /**
-     * @param AmqpDriver            $driver    Driver for amqp
+     * @param AmqpCluster           $cluster   Amqp cluster
      * @param MessageEventConverter $converter Convert amqp message to event
      * @param string                $queue     Queue name for consumption
      */
-    public function __construct(AmqpDriver $driver, MessageEventConverter $converter, $queue)
+    public function __construct(AmqpCluster $cluster, MessageEventConverter $converter, $queue)
     {
-        $this->driver = $driver;
+        $this->cluster = $cluster;
         $this->converter = $converter;
         $this->queue = $queue;
         $this->logger = LoggerFactory::getLogger(__CLASS__);
@@ -50,23 +51,47 @@ class AmqpConsumer implements EventConsumer
      */
     public function consumeEvents(callable $callback, $timeout)
     {
+        $start = time();
+        $drivers = $this->cluster->getDrivers($this->queue);
+        if (empty($drivers)) {
+            throw new ReadEventException("No available drivers in cluster");
+        }
+        /** @var AmqpDriver $driver */
+        $driver = array_shift($drivers);
+
+        $this->logger->debug('Consume events from queue', ['queue' => $this->queue, 'timeout' => $timeout]);
+
         try {
-            $this->logger->debug('Consume events from queue', ['queue' => $this->queue, 'timeout', $timeout]);
-            $this->driver->consume($this->queue, $this->createDeliveryCallback($callback), $timeout);
+            $driver->consume($this->queue, $this->createDeliveryCallback($callback, $driver), $timeout);
         } catch (DriverException $e) {
-            throw new ReadEventException('Driver error while consuming', $e);
+            $driver->close();
+            $this->logger->err("Driver error while consuming: $e");
+
+            $elapsed = time() - $start;
+            if ($timeout > 0) {
+                $timeout -= $elapsed;
+                if ($timeout === 0) {
+                    $timeout = -1;
+                }
+            }
+
+            if ($timeout < 0) {
+                return;
+            } else {
+                $this->consumeEvents($callback, $timeout);
+            }
         }
     }
 
-    private function createDeliveryCallback(callable $callback)
+    private function createDeliveryCallback(callable $callback, AmqpDriver $driver)
     {
-        return function (MessageDelivery $delivery) use ($callback) {
+        return function (MessageDelivery $delivery) use ($callback, $driver) {
             try {
                 $this->logger->debug('Message delivery', ['delivery' => $delivery]);
                 $event = $this->converter->messageToEvent($delivery->getMessage());
             } catch (MessageConversionException $e) {
                 $this->logger->debug('Reject delivery on conversion error');
-                $this->driver->reject($delivery);
+                $driver->reject($delivery);
 
                 throw new ReadEventException('Error on event message conversion', $e);
             }
@@ -75,13 +100,13 @@ class AmqpConsumer implements EventConsumer
                 $result = $callback($event);
             } catch (\Exception $e) {
                 $this->logger->debug('Reject delivery on callback error');
-                $this->driver->reject($delivery);
+                $driver->reject($delivery);
 
                 throw new EventCallbackException($callback, $event, $e);
             }
 
             $this->logger->debug('Ack delivery');
-            $this->driver->ack($delivery);
+            $driver->ack($delivery);
 
             return $result;
         };
