@@ -17,23 +17,32 @@ namespace EventBand\Transport\Amqp\Definition;
  */
 class AmqpBuilder implements AmqpDefinition
 {
-    private $connection;
+    private $connections = array();
     private $queues = array();
     private $exchanges = array();
-
-    public function __construct()
-    {
-        $this->connection = new ConnectionBuilder($this);
-    }
 
     /**
      * @param array $options
      *
+     * @return ConnectionBuilder[]
+     */
+    public function connections(array $options = [])
+    {
+        foreach ($options as $index => $value) {
+            $this->connections[$index] = (new ConnectionBuilder($this))->options($value);
+        }
+
+        return $this->connections;
+    }
+
+    /**
+     * @param int $index
+     *
      * @return ConnectionBuilder
      */
-    public function connection(array $options = [])
+    public function getConnection($index)
     {
-       return $this->connection->options($options);
+        return $this->connections[$index];
     }
 
     /**
