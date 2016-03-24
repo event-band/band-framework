@@ -113,7 +113,7 @@ class AmqpPublisherTest extends TestCase
         ;
 
         $publisher = new AmqpPublisher(
-            $this->driver, $this->converter, 'exchange', null,
+            $this->driver, $this->converter, 'exchange', null, null,
             false, true, false
         );
 
@@ -149,7 +149,7 @@ class AmqpPublisherTest extends TestCase
         ;
 
         $publisher = new AmqpPublisher(
-            $this->driver, $this->converter, 'exchange', $router,
+            $this->driver, $this->converter, 'exchange', null, $router,
             false, true, false
         );
 
@@ -211,6 +211,30 @@ class AmqpPublisherTest extends TestCase
         }
 
         $this->fail('Exception was not thrown');
+    }
+
+    /**
+     * @test UnexpectedValueException when neither exchange nor queue is set
+     */
+    public function badConfiguration()
+    {
+        $event = $this->createEvent();
+        $message = $this->createMessage();
+        $this->converter
+            ->expects($this->any())
+            ->method('eventToMessage')
+            ->will($this->returnValue($message))
+        ;
+
+        $this->driver
+            ->expects($this->any())
+            ->method('publish')
+            ->with($this->anything(), $this->anything(), 'eventRoutingKey')
+        ;
+        $publisher = new AmqpPublisher($this->driver, $this->converter, null);
+
+        $this->expectException(\UnexpectedValueException::class);
+        $publisher->publishEvent($event);
     }
 
     /**
