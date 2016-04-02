@@ -14,4 +14,5 @@ interface TransportConfigurator
 {
     public function supportsDefinition($definition);
     public function setUpDefinition($definition);
+    public function clearDefinition($definition);
 }
