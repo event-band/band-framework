@@ -88,4 +88,25 @@ class AmqpConfigurator implements TransportConfigurator
             throw new ConfiguratorException('Driver error on declare', 0, $e);
         }
     }
+    
+    public function clearDefinition($definition)
+    {
+        if (!$this->supportsDefinition($definition)) {
+            throw new UnsupportedDefinitionException($definition, 'Definition is not an AmqpDefinition');
+        }
+        /** @var $definition AmqpDefinition */
+        try {
+            foreach ($definition->getQueues() as $queue) {
+                $this->logger->debug('Delete queue', ['queue' => $queue]);
+                $this->driver->deleteQueue($queue);
+
+            }
+            foreach ($definition->getExchanges() as $exchange) {
+                $this->logger->debug('Delete exchange', ['exchange' => $exchange]);
+                $this->driver->deleteExchange($exchange);
+            }
+        } catch (DriverException $e) {
+            throw new ConfiguratorException('Driver error on delete', 0, $e);
+        }
+    }
 }
