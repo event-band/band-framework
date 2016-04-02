@@ -30,12 +30,13 @@ class ClassUtils
     {
         // TODO: parameter validation and conversion
 
-        $replacePattern = sprintf("\\1%s\\2", $wordSeparator);
-        $name = strtolower(preg_replace(
-            ['/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'],
-            [$replacePattern, $replacePattern],
-            strtr($class, '\\', $nsSeparator)
-        ));
+        $replace = sprintf('%s\\1', $wordSeparator);
+
+        $parts = explode('\\', $class);
+        foreach ($parts as &$part) {
+            $part = strtolower(preg_replace('/(?<=.)([A-Z])/', $replace, $part));
+        }
+        $name = implode($nsSeparator, $parts);
 
         return $name;
     }
