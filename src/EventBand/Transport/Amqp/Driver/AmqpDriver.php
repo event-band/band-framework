@@ -35,4 +35,8 @@ interface AmqpDriver
     public function declareQueue(QueueDefinition $queue);
 
     public function bindQueue($queue, $exchange, $routingKey = '');
+
+    public function deleteExchange(ExchangeDefinition $exchange, $ifUnused = false, $nowait = false);
+
+    public function deleteQueue(QueueDefinition $queue, $ifUnused = false, $ifEmpty = false, $nowait = false);
 }

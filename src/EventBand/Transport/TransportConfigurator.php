@@ -13,5 +13,5 @@ namespace EventBand\Transport;
 interface TransportConfigurator
 {
     public function supportsDefinition($definition);
-    public function setUpDefinition($definition);
+    public function setUpDefinition($definition, $reset = false);
 }
