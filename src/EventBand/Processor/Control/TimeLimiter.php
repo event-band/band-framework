@@ -3,7 +3,7 @@
  * @LICENSE_TEXT
  */
 
-namespace EventBand;
+namespace EventBand\Processor\Control;
 
 use EventBand\Processor\DispatchStopEvent;
 

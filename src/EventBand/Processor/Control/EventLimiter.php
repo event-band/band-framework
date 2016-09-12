@@ -7,7 +7,7 @@
  * with this package in the file LICENSE.
  */
 
-namespace EventBand;
+namespace EventBand\Processor\Control;
 
 use EventBand\Processor\DispatchStopEvent;
 use EventBand\Processor\ProcessStartEvent;
