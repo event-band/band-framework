@@ -16,6 +16,7 @@ use EventBand\Transport\Amqp\Driver\MessageDelivery;
 use EventBand\Transport\EventCallbackException;
 use EventBand\Transport\ReadEventException;
 use PHPUnit_Framework_TestCase as TestCase;
+use EventBand\Transport\Amqp\Driver\AmqpMessage;
 
 class AmqpConsumerTest extends TestCase
 {
@@ -215,9 +216,9 @@ class AmqpConsumerTest extends TestCase
      */
     private function createDelivery()
     {
-        $message = $this->getMock('EventBand\Transport\Amqp\Driver\AmqpMessage');
+        $message = $this->getMock(AmqpMessage::class);
 
-        $delivery = $this->getMockBuilder('EventBand\Transport\Amqp\Driver\MessageDelivery')->disableOriginalConstructor()->getMock();
+        $delivery = $this->getMockBuilder(MessageDelivery::class)->disableOriginalConstructor()->getMock();
         $delivery
             ->expects($this->any())
             ->method('getMessage')
