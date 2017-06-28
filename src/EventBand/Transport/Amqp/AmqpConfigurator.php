@@ -45,7 +45,7 @@ class AmqpConfigurator implements TransportConfigurator
     /**
      * {@inheritDoc}
      */
-    public function setUpDefinition($definition)
+    public function setUpDefinition($definition, $reset = false)
     {
         if (!$this->supportsDefinition($definition)) {
             throw new UnsupportedDefinitionException($definition, 'Definition is not an AmqpDefinition');
@@ -54,6 +54,10 @@ class AmqpConfigurator implements TransportConfigurator
         /** @var $definition AmqpDefinition */
         try {
             foreach ($definition->getExchanges() as $exchange) {
+                if ($reset) {
+                    $this->logger->debug('Delete exchange', ['exchange' => $exchange]);
+                    $this->driver->deleteExchange($exchange);
+                }
                 $this->logger->debug('Declare exchange', ['exchange' => $exchange]);
                 $this->driver->declareExchange($exchange);
             }
@@ -71,6 +75,10 @@ class AmqpConfigurator implements TransportConfigurator
             }
 
             foreach ($definition->getQueues() as $queue) {
+                if ($reset) {
+                    $this->logger->debug('Delete queue', ['queue' => $queue]);
+                    $this->driver->deleteQueue($queue);
+                }
                 $this->logger->debug('Declare queue', ['queue' => $queue]);
                 $this->driver->declareQueue($queue);
                 foreach ($queue->getBindings() as $exchange => $routingKeys) {

@@ -1,5 +1,5 @@
-EventBand - Asyncronous event processing [![Build Status](https://travis-ci.org/chEbba/EventBand.png)](https://travis-ci.org/chEbba/EventBand)
-============================================
+EventBand - Asyncronous event processing
+========================================
 
-Coming soon
+Coming soon [![Build Status](https://travis-ci.org/event-band/band-framework.svg?branch=1.0.x)](https://travis-ci.org/event-band/band-framework)
 

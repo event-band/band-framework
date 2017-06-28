@@ -48,7 +48,8 @@ class ClassUtilsTest extends TestCase
             ['Foo\Ns\Class', 'foo/ns/class'],
             ['FooBar\Ns\Class', 'foo-bar/ns/class'],
             ['FooBar\Ns\ClassName', 'foo-bar/ns/class-name'],
-            ['FooBar\Ns\Class35Name', 'foo-bar/ns/class35-name']
+            ['FooBar\Ns\Class35Name', 'foo-bar/ns/class35-name'],
+            ['FooBar\Ns\STDClass', 'foo-bar/ns/s-t-d-class']
         ];
     }
 }

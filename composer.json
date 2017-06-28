@@ -12,20 +12,21 @@
             "homepage": "http://github.com/chEbba"
         }
     ],
-
     "autoload": {
         "psr-0": { "EventBand": "src/" }
     },
-
     "require": {
         "php": ">=5.4",
-        "symfony/property-access": "2.*",
-        "che/log-stock": "1.*"
-    },
 
+        "symfony/property-access": "~2.3 || ~3.0",
+
+        "che/log-stock": "~1.0"
+    },
     "require-dev": {
-        "phpunit/phpunit": "3.7.*",
-        "symfony/property-access" : "2.2.0",
-        "che/log-stock": "1.0.0"
+        "phpunit/phpunit": "~3.7.0",
+
+        "symfony/property-access" : "~2.3 || ~3.0",
+
+        "che/log-stock": "~1.0"
     }
 }
