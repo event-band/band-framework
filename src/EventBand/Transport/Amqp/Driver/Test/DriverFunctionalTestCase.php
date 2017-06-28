@@ -1,8 +1,11 @@
 <?php
 /**
- * @LICENSE_TEXT
+ * @author Kirill chEbba Chebunin
+ * @author Vasil coylOne Kulakov <kulakov@vasiliy.pro>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this package in the file LICENSE.
  */
-
 namespace EventBand\Transport\Amqp\Driver\Test;
 
 use EventBand\Transport\Amqp\Driver\AmqpDriver;
@@ -11,11 +14,6 @@ use EventBand\Transport\Amqp\Driver\MessageDelivery;
 use EventBand\Transport\Amqp\Driver\MessagePublication;
 use PHPUnit_Framework_TestCase as TestCase;
 
-/**
- * Class DriverTestCase
- *
- * @author Kirill chEbba Chebunin <iam@chebba.org>
- */
 abstract class DriverFunctionalTestCase extends TestCase
 {
     private $driver;

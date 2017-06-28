@@ -1,20 +1,16 @@
 <?php
-/*
- * Copyright (c)
- * Kirill chEbba Chebunin <iam@chebba.org>
+/**
+ * @author Kirill chEbba Chebunin
+ * @author Vasil coylOne Kulakov <kulakov@vasiliy.pro>
  *
  * This source file is subject to the MIT license that is bundled
  * with this package in the file LICENSE.
  */
-
 namespace EventBand\Transport;
 use EventBand\Event;
 
 /**
  * Exception while executing event callback on read
- *
- * @author Kirill chEbba Chebunin <iam@chebba.org>
- * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class EventCallbackException extends \RuntimeException
 {
@@ -22,9 +18,9 @@ class EventCallbackException extends \RuntimeException
     private $event;
 
     /**
-     * @param callable   $callback
-     * @param Event      $event
-     * @param \Exception $previous
+     * @param callable|object   $callback
+     * @param Event             $event
+     * @param \Exception        $previous
      */
     public function __construct($callback, Event $event, \Exception $previous)
     {

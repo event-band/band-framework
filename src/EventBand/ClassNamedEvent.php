@@ -1,21 +1,17 @@
 <?php
-/*
- * Copyright (c)
- * Kirill chEbba Chebunin <iam@chebba.org>
+/**
+ * @author Kirill chEbba Chebunin
+ * @author Vasil coylOne Kulakov <kulakov@vasiliy.pro>
  *
  * This source file is subject to the MIT license that is bundled
  * with this package in the file LICENSE.
  */
-
 namespace EventBand;
 
 use EventBand\Utils\ClassUtils;
 
 /**
  * Base event class with class-based name
- *
- * @author Kirill chEbba Chebunin <iam@chebba.org>
- * @license http://opensource.org/licenses/mit-license.php MIT
  */
 abstract class ClassNamedEvent implements Event
 {
@@ -55,7 +51,7 @@ abstract class ClassNamedEvent implements Event
      */
     public static function generateName($class)
     {
-        $name = ClassUtils::classToName($class, '.', '_', self::IGNORED_SUFFIX);
+        $name = ClassUtils::classToName($class, '.', '_');
 
         // Remove suffix
         if (substr($name, -1 * strlen(self::IGNORED_SUFFIX)) === self::IGNORED_SUFFIX) {
