@@ -9,6 +9,7 @@
 namespace EventBand\Tests\Transport\Amqp;
 
 use EventBand\Transport\DelegatingTransportConfigurator;
+use EventBand\Transport\TransportConfigurator;
 use PHPUnit_Framework_TestCase as TestCase;
 
 class DelegatingTransportConfiguratorTest extends TestCase
@@ -27,7 +28,7 @@ class DelegatingTransportConfiguratorTest extends TestCase
      */
     protected function setUp()
     {
-        $this->internalConfigurator = $this->getMock('EventBand\Transport\TransportConfigurator');
+        $this->internalConfigurator = $this->getMock(TransportConfigurator::class);
         $this->internalConfigurator
             ->expects($this->any())
             ->method('supportsDefinition')

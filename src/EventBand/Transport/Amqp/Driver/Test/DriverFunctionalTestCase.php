@@ -57,7 +57,7 @@ abstract class DriverFunctionalTestCase extends TestCase
      */
     protected function createMessage($body = '', array $properties = [])
     {
-        $message = $this->getMock('EventBand\\Transport\\Amqp\\Driver\\AmqpMessage');
+        $message = $this->getMock(AmqpMessage::class);
         $message
             ->expects($this->any())
             ->method('getBody')

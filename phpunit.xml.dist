@@ -9,12 +9,12 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="false"
-         bootstrap="./tests/bootstrap.php"
+         bootstrap="./bootstrap.php"
 >
 
     <testsuites>
         <testsuite name="EventBand Test Suite">
-            <directory>./tests</directory>
+            <directory>./src/EventBand/Tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>

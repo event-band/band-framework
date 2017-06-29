@@ -10,7 +10,7 @@ namespace EventBand\Tests\Serializer;
 
 use EventBand\Serializer\NativeEventSerializer;
 use EventBand\Serializer\SerializerException;
-use EventBand\Serializer\UnexpectedResultException;
+use EventBand\Serializer\UnexpectedResultException;;
 use EventBand\Serializer\UnsupportedEventException;
 use EventBand\Serializer\WrongFormatException;
 use PHPUnit_Framework_TestCase as TestCase;

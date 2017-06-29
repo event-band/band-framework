@@ -44,9 +44,9 @@ class AmqpPublisherTest extends TestCase
      */
     protected function setUp()
     {
-        $this->driver = $this->getMock('EventBand\Transport\Amqp\Driver\AmqpDriver');
-        $this->converter = $this->getMock('EventBand\Transport\Amqp\Driver\MessageEventConverter');
-        $this->router = $this->getMock('EventBand\Routing\EventRouter');
+        $this->driver = $this->getMock(AmqpDriver::class);
+        $this->converter = $this->getMock(MessageEventConverter::class);
+        $this->router = $this->getMock(EventRouter::class);
         $this->publisher = new AmqpPublisher($this->driver, $this->converter, 'exchange');
     }
 
@@ -67,7 +67,7 @@ class AmqpPublisherTest extends TestCase
         $this->driver
             ->expects($this->once())
             ->method('publish')
-            ->with($this->isInstanceOf('EventBand\Transport\Amqp\Driver\MessagePublication'), 'exchange', '')
+            ->with($this->isInstanceOf(MessagePublication::class), 'exchange', '')
         ;
 
         $this->publisher->publishEvent($event);
@@ -127,7 +127,7 @@ class AmqpPublisherTest extends TestCase
             ->will($this->returnValue($message))
         ;
 
-        $router = $this->getMock('EventBand\Routing\EventRouter');
+        $router = $this->getMock(EventRouter::class);
         $router
             ->expects($this->once())
             ->method('routeEvent')
@@ -219,6 +219,6 @@ class AmqpPublisherTest extends TestCase
      */
     private function createMessage()
     {
-        return $this->getMock('EventBand\Transport\Amqp\Driver\AmqpMessage');
+        return $this->getMock(AmqpMessage::class);
     }
 }

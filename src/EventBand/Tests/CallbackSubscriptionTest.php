@@ -21,8 +21,8 @@ class CallbackSubscriptionTest extends TestCase
      */
     public function dispatchWithCallback()
     {
-        $event = $this->getMock('EventBand\Event');
-        $dispatcher = $this->getMock('EventBand\BandDispatcher');
+        $event = $this->getMock(Event::class);
+        $dispatcher = $this->getMock(BandDispatcher::class);
 
         $subscription = new CallbackSubscription(
             'event.name',

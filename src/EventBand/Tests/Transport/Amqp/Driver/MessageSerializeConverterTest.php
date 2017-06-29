@@ -8,6 +8,9 @@
  */
 namespace EventBand\Tests\Transport\Amqp\Driver;
 
+use EventBand\Event;
+use EventBand\Serializer\EventSerializer;
+use EventBand\Transport\Amqp\Driver\AmqpMessage;
 use EventBand\Transport\Amqp\Driver\MessageSerializeConverter;
 use EventBand\Transport\Amqp\Driver\CustomAmqpMessage;
 use PHPUnit_Framework_TestCase as TestCase;
@@ -25,7 +28,7 @@ class MessageSerializeConverterTest extends TestCase
 
     protected function setUp()
     {
-        $this->serializer = $this->getMock('EventBand\Serializer\EventSerializer');
+        $this->serializer = $this->getMock(EventSerializer::class);
         $this->converter = new MessageSerializeConverter($this->serializer);
     }
 
@@ -34,7 +37,7 @@ class MessageSerializeConverterTest extends TestCase
      */
     public function eventSerialization()
     {
-        $event = $this->getMock('EventBand\Event');
+        $event = $this->getMock(Event::class);
         $this->serializer
             ->expects($this->once())
             ->method('serializeEvent')
@@ -43,7 +46,7 @@ class MessageSerializeConverterTest extends TestCase
         ;
 
         $message = $this->converter->eventToMessage($event);
-        $this->assertInstanceOf('EventBand\Transport\Amqp\Driver\AmqpMessage', $message);
+        $this->assertInstanceOf(AmqpMessage::class, $message);
         $this->assertEquals('serialized string', $message->getBody());
     }
 
@@ -52,14 +55,14 @@ class MessageSerializeConverterTest extends TestCase
      */
     public function messageBodyDeserialization()
     {
-        $message = $this->getMock('EventBand\Transport\Amqp\Driver\AmqpMessage');
+        $message = $this->getMock(AmqpMessage::class);
         $message
             ->expects($this->once())
             ->method('getBody')
             ->will($this->returnValue('serialized string'))
         ;
 
-        $event = $this->getMock('EventBand\Event');
+        $event = $this->getMock(Event::class);
         $this->serializer
             ->expects($this->once())
             ->method('deserializeEvent')
@@ -78,7 +81,7 @@ class MessageSerializeConverterTest extends TestCase
     {
         $prototype = new AmqpMessageMock();
         $converter = new MessageSerializeConverter($this->serializer, $prototype);
-        $event = $this->getMock('EventBand\Event');
+        $event = $this->getMock(Event::class);
 
         $this->serializer
             ->expects($this->once())
@@ -87,7 +90,7 @@ class MessageSerializeConverterTest extends TestCase
         ;
 
         $message = $converter->eventToMessage($event);
-        $this->assertInstanceOf('EventBand\Transport\Amqp\Driver\AmqpMessage', $message);
+        $this->assertInstanceOf(AmqpMessage::class, $message);
 
         $messageProperties = CustomAmqpMessage::getMessageProperties($message);
         $expectedProperties = CustomAmqpMessage::getMessageProperties($prototype);

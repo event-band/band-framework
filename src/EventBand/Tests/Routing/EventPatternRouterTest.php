@@ -8,7 +8,9 @@
  */
 namespace EventBand\Tests\Routing;
 
+use EventBand\Event;
 use EventBand\Routing\EventPatternRouter;
+use EventBand\Routing\EventRoutingException;
 use PHPUnit_Framework_TestCase as TestCase;
 
 class EventPatternRouterTest extends TestCase
@@ -60,7 +62,7 @@ class EventPatternRouterTest extends TestCase
     /**
      * @test routeEvent throws exception on non-scalar replacements
      *
-     * @expectedException EventBand\Routing\EventRoutingException
+     * @expectedException \EventBand\Routing\EventRoutingException
      * @expectedExceptionMessage is not a scalar
      */
     public function routeReplaceNonScalars()
@@ -74,13 +76,13 @@ class EventPatternRouterTest extends TestCase
     /**
      * @test routeEvent throws exception if property is not found
      *
-     * @expectedException EventBand\Routing\EventRoutingException
+     * @expectedException \EventBand\Routing\EventRoutingException
      * @expectedExceptionMessage Can not replace
      */
     public function routeReplaceNotExisting()
     {
         $router = new EventPatternRouter('{foo}');
-        $event = $this->getMock('EventBand\Event');
+        $event = $this->getMock(Event::class);
 
         $router->routeEvent($event);
     }

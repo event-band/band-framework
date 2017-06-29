@@ -10,9 +10,11 @@ namespace EventBand\Tests\Transport\Amqp;
 
 use EventBand\Event;
 use EventBand\Transport\Amqp\AmqpConsumer;
+use EventBand\Transport\Amqp\Driver\AmqpDriver;
 use EventBand\Transport\Amqp\Driver\MessageConversionException;
 use EventBand\Transport\Amqp\Driver\DriverException;
 use EventBand\Transport\Amqp\Driver\MessageDelivery;
+use EventBand\Transport\Amqp\Driver\MessageEventConverter;
 use EventBand\Transport\EventCallbackException;
 use EventBand\Transport\ReadEventException;
 use PHPUnit_Framework_TestCase as TestCase;
@@ -38,8 +40,8 @@ class AmqpConsumerTest extends TestCase
      */
     protected function setUp()
     {
-        $this->driver = $this->getMock('EventBand\Transport\Amqp\Driver\AmqpDriver');
-        $this->converter = $this->getMock('EventBand\Transport\Amqp\Driver\MessageEventConverter');
+        $this->driver = $this->getMock(AmqpDriver::class);
+        $this->converter = $this->getMock(MessageEventConverter::class);
         $this->consumer = new AmqpConsumer($this->driver, $this->converter, 'queue');
     }
 
@@ -106,7 +108,7 @@ class AmqpConsumerTest extends TestCase
         $delivery = $this->createDelivery();
 
         $conversionException = new MessageConversionException(
-            $this->getMock('EventBand\Transport\Amqp\Driver\AmqpMessage'),
+            $this->getMock(AmqpMessage::class),
             'Conversion Error'
         );
         $this->converter
@@ -232,6 +234,6 @@ class AmqpConsumerTest extends TestCase
      */
     private function createEvent()
     {
-        return $this->getMock('EventBand\Event');
+        return $this->getMock(Event::class);
     }
 }

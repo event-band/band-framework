@@ -15,7 +15,7 @@ class EventMock implements Event
     private $name;
     private $error;
 
-    public function __construct($name, $error = null)
+    public function     __construct($name, $error = null)
     {
         $this->name = $name;
         $this->error = $error;
@@ -33,10 +33,10 @@ class EventMock implements Event
         }
 
         if ($this->error === 'error') {
-            return;
+            return null;
         }
 
-        return array('name');
+        return ['name'];
     }
 
     public function __wakeup()
