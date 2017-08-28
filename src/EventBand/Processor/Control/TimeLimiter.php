@@ -8,7 +8,7 @@
  */
 namespace EventBand\Processor\Control;
 
-use EventBand\Processor\DispatchStopEvent;
+use EventBand\Processor\StoppableDispatchEvent;
 
 class TimeLimiter
 {
@@ -30,10 +30,13 @@ class TimeLimiter
         $this->startTime = time();
     }
 
-    public function checkLimit(DispatchStopEvent $event)
+    public function checkLimit(StoppableDispatchEvent $event)
     {
-        if ($this->startTime + $this->limit >= time()) {
+        $now = time();
+        if ($this->startTime + $this->limit >= $now) {
             $event->stopDispatching();
+            return 0;
         }
+        return (int) ($this->startTime + $this->limit - $now);
     }
 }

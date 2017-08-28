@@ -39,10 +39,7 @@ class DispatchProcessor
         }
         $this->band = $band;
 
-        if (($timeout = (int) $timeout) < 0) {
-            throw new \InvalidArgumentException(sprintf('Timeout %d < 0', $timeout));
-        }
-        $this->timeout = $timeout;
+        $this->setTimeout($timeout);
     }
 
     /**
@@ -67,6 +64,14 @@ class DispatchProcessor
         }
 
         $this->dispatcher->dispatchEvent(new ProcessStopEvent());
+    }
+
+    public function setTimeout($timeout)
+    {
+        if (($timeout = (int)$timeout) < 0) {
+            throw new \InvalidArgumentException(sprintf('Timeout %d < 0', $timeout));
+        }
+        $this->timeout = $timeout;
     }
 
     private function getDispatchCallback(&$dispatching)
