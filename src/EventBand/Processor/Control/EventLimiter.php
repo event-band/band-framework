@@ -8,7 +8,7 @@
  */
 namespace EventBand\Processor\Control;
 
-use EventBand\Processor\DispatchStopEvent;
+use EventBand\Processor\StoppableDispatchEvent;
 
 class EventLimiter
 {
@@ -30,7 +30,7 @@ class EventLimiter
         $this->events = 0;
     }
 
-    public function checkLimit(DispatchStopEvent $event)
+    public function checkLimit(StoppableDispatchEvent $event)
     {
         $this->events++;
 
