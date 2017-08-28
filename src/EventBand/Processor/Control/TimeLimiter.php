@@ -22,7 +22,7 @@ class TimeLimiter
         }
         $this->limit = $limit;
 
-        $this->startTime = 0;
+        $this->initTimer();
     }
 
     public function initTimer()
@@ -32,11 +32,11 @@ class TimeLimiter
 
     public function checkLimit(StoppableDispatchEvent $event)
     {
-        $now = time();
-        if ($this->startTime + $this->limit >= $now) {
+        $timeLeft = $this->startTime + $this->limit - time();
+        if ($timeLeft <= 0) {
             $event->stopDispatching();
             return 0;
         }
-        return (int) ($this->startTime + $this->limit - $now);
+        return $timeLeft;
     }
 }
