@@ -21,14 +21,18 @@ class DispatchProcessor
     private $consumer;
     private $timeout;
     private $band;
+    /**
+     * @var int
+     */
+    private $idleTimeout;
 
     /**
-     * @param BandDispatcher $dispatcher Dispatcher
-     * @param EventConsumer  $consumer   Consumer
-     * @param string         $band       Name of band for dispatcher
-     * @param int            $timeout    Timeout in second for consumer
+     * @param BandDispatcher $dispatcher  Dispatcher
+     * @param EventConsumer  $consumer    Consumer
+     * @param string         $band        Name of band for dispatcher
+     * @param int            $idleTimeout Timeout in second for consumer
      */
-    public function __construct(BandDispatcher $dispatcher, EventConsumer $consumer, $band, $timeout)
+    public function __construct(BandDispatcher $dispatcher, EventConsumer $consumer, $band, $idleTimeout, $timeout = null)
     {
         $this->dispatcher = $dispatcher;
         $this->consumer = $consumer;
@@ -39,7 +43,8 @@ class DispatchProcessor
         }
         $this->band = $band;
 
-        $this->setTimeout($timeout);
+        $this->timeout = $timeout;
+        $this->idleTimeout = $idleTimeout;
     }
 
     /**
@@ -54,9 +59,9 @@ class DispatchProcessor
         $dispatchCallback = $this->getDispatchCallback($dispatching);
 
         while ($dispatching) {
-            $this->consumer->consumeEvents($dispatchCallback, $this->timeout);
-            if ($dispatching) { // We stopped by timeout
-                $dispatchTimeout = new DispatchTimeoutEvent($this->timeout);
+            $this->consumer->consumeEvents($dispatchCallback, $this->idleTimeout, $this->timeout);
+            if ($dispatching) { // stopped by timeout
+                $dispatchTimeout = new DispatchTimeoutEvent($this->idleTimeout ?: $this->timeout);
                 $this->dispatcher->dispatchEvent($dispatchTimeout);
 
                 $dispatching = $dispatchTimeout->isDispatching();
@@ -66,6 +71,10 @@ class DispatchProcessor
         $this->dispatcher->dispatchEvent(new ProcessStopEvent());
     }
 
+    /**
+     * @deprecated timeout property overriding does not guarantee real timeout changing
+     * @param $timeout
+     */
     public function setTimeout($timeout)
     {
         if (($timeout = (int)$timeout) < 0) {
