@@ -19,12 +19,13 @@ interface EventConsumer
      * If callback fails event should be requeued.
      *
      * @param callable $callback    Event callback. If callback returns false consumption should be stopped.
-     *                           Signature: bool function(Event $event)
-     * @param int      $idleTimeout Timeout in seconds (>= 0).
-     *                           If not events occurs in $timeout seconds consumer should stop consumption.
+     *                              Signature: bool function(Event $event)
+     * @param int      $idleTimeout Idle timeout in seconds (>= 0).
+     *                              If not events occurs in $timeout seconds consumer should stop consumption.
+     * @param null     $timeout     Timeout in seconds (>= 0)
+     *                              Timeout for full execution cycle. Consume stops when timeout reached.
      *
-     * @throws ReadEventException     On errors while event consumption
-     * @throws EventCallbackException On exception in callback
+     * @return void                 On errors while event consumption
      */
     public function consumeEvents(callable $callback, $idleTimeout, $timeout = null);
 }
