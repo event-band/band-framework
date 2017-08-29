@@ -18,7 +18,7 @@ namespace EventBand\Transport\Amqp\Definition;
 class ConnectionBuilder implements ConnectionDefinition
 {
     private $builder;
-    private $host = 'localhost';
+    private $hosts = ['localhost'];
     private $port = '5672';
     private $user = 'guest';
     private $password = 'guest';
@@ -43,16 +43,18 @@ class ConnectionBuilder implements ConnectionDefinition
         return $this;
     }
 
-    public function host($host)
+    public function host($hosts)
     {
-        $this->host = $host;
-
+        $hosts = is_array($hosts) ? array_values($hosts) : explode(',', $hosts);
+        if (count($hosts)) {
+            $this->hosts = $hosts;
+        }
         return $this;
     }
 
     public function getHost()
     {
-        return $this->host;
+        return trim($this->hosts[array_rand($this->hosts)]);
     }
 
     public function port($port)
