@@ -47,8 +47,11 @@ class AmqpConsumer implements EventConsumer
     public function consumeEvents(callable $callback, $idleTimeout, $timeout = null)
     {
         try {
-            $this->logger->debug('Consume events from queue', ['queue' => $this->queue, 'timeout', $idleTimeout]);
-            $this->driver->consume($this->queue, $this->createDeliveryCallback($callback), $idleTimeout);
+            $this->logger->debug(
+                'Consume events from queue',
+                ['queue' => $this->queue, 'idleTimeout' => $idleTimeout, 'maxExecutionTimeout' => $timeout]
+            );
+            $this->driver->consume($this->queue, $this->createDeliveryCallback($callback), $idleTimeout, $timeout);
         } catch (DriverException $e) {
             throw new ReadEventException('Driver error while consuming', $e);
         }
