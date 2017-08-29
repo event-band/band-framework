@@ -15,7 +15,7 @@ interface AmqpDriver
 {
     public function publish(MessagePublication $publication, $exchange, $routingKey = '');
 
-    public function consume($queue, callable $callback, $timeout);
+    public function consume($queue, callable $callback, $idleTimeout, $timeout = null);
 
     public function ack(MessageDelivery $delivery);
 
