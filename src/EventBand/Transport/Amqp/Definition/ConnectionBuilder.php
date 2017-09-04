@@ -12,7 +12,7 @@ namespace EventBand\Transport\Amqp\Definition;
 /**
  * Description of ConnectionBuilder
  *
- * @author Kirill chEbba Chebunin <iam@chebba.org>
+ * @author  Kirill chEbba Chebunin <iam@chebba.org>
  * @license http://opensource.org/licenses/mit-license.php MIT
  */
 class ConnectionBuilder implements ConnectionDefinition
@@ -23,6 +23,7 @@ class ConnectionBuilder implements ConnectionDefinition
     private $user = 'guest';
     private $password = 'guest';
     private $virtualHost = '/';
+    private $heartbeat = 0;
 
     public function __construct(AmqpBuilder $builder)
     {
@@ -49,6 +50,7 @@ class ConnectionBuilder implements ConnectionDefinition
         if (count($hosts)) {
             $this->hosts = $hosts;
         }
+
         return $this;
     }
 
@@ -103,5 +105,15 @@ class ConnectionBuilder implements ConnectionDefinition
     public function getVirtualHost()
     {
         return $this->virtualHost;
+    }
+
+    public function heartbeat($heartbeat)
+    {
+        $this->heartbeat = $heartbeat;
+    }
+
+    public function getHeartbeat()
+    {
+        return $this->heartbeat;
     }
 }

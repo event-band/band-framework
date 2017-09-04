@@ -26,4 +26,6 @@ interface ConnectionDefinition
     public function getPassword();
 
     public function getVirtualHost();
+
+    public function getHeartbeat();
 }
