@@ -28,4 +28,20 @@ interface ConnectionDefinition
     public function getVirtualHost();
 
     public function getHeartbeat();
+
+    public function getInsist();
+
+    public function getLoginMethod();
+
+    public function getLoginResponse();
+
+    public function getLocale();
+
+    public function getConnectionTimeout();
+
+    public function getReadWriteTimeout();
+
+    public function getKeepalive();
+
+    public function getContext();
 }
