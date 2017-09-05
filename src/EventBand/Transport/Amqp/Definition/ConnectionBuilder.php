@@ -1,7 +1,7 @@
 <?php
-/*
- * Copyright (c)
- * Kirill chEbba Chebunin <iam@chebba.org>
+/**
+ * @author Kirill chEbba Chebunin
+ * @author Vasil coylOne Kulakov <kulakov@vasiliy.pro>
  *
  * This source file is subject to the MIT license that is bundled
  * with this package in the file LICENSE.
@@ -9,20 +9,23 @@
 
 namespace EventBand\Transport\Amqp\Definition;
 
-/**
- * Description of ConnectionBuilder
- *
- * @author Kirill chEbba Chebunin <iam@chebba.org>
- * @license http://opensource.org/licenses/mit-license.php MIT
- */
 class ConnectionBuilder implements ConnectionDefinition
 {
     private $builder;
-    private $hosts = ['localhost'];
-    private $port = '5672';
-    private $user = 'guest';
-    private $password = 'guest';
-    private $virtualHost = '/';
+    private $hosts             = ['localhost'];
+    private $port              = '5672';
+    private $user              = 'guest';
+    private $password          = 'guest';
+    private $virtualHost       = '/';
+    private $insist            = false;
+    private $loginMethod       = 'AMQPLAIN';
+    private $loginResponse     = null;
+    private $locale            = 'en_US';
+    private $connectionTimeout = 3.0;
+    private $readWriteTimeout  = 3.0;
+    private $context           = null;
+    private $keepalive         = false;
+    private $heartbeat         = 0;
 
     public function __construct(AmqpBuilder $builder)
     {
@@ -49,6 +52,7 @@ class ConnectionBuilder implements ConnectionDefinition
         if (count($hosts)) {
             $this->hosts = $hosts;
         }
+
         return $this;
     }
 
@@ -103,5 +107,111 @@ class ConnectionBuilder implements ConnectionDefinition
     public function getVirtualHost()
     {
         return $this->virtualHost;
+    }
+
+    public function heartbeat($heartbeat)
+    {
+        $this->heartbeat = $heartbeat;
+    }
+
+    public function getHeartbeat()
+    {
+        return $this->heartbeat;
+    }
+
+    public function getInsist()
+    {
+        return $this->insist;
+    }
+
+    public function insist($insist)
+    {
+        $this->insist = $insist;
+
+        return $this;
+    }
+
+    public function getLoginMethod()
+    {
+        return $this->loginMethod;
+    }
+
+    public function loginMethod($login_method)
+    {
+        $this->loginMethod = $login_method;
+
+        return $this;
+    }
+
+    public function getLoginResponse()
+    {
+        return $this->loginResponse;
+    }
+
+    public function loginResponse($login_response)
+    {
+        $this->loginResponse = $login_response;
+
+        return $this;
+    }
+
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    public function locale($locale)
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    public function getConnectionTimeout()
+    {
+        return $this->connectionTimeout;
+    }
+
+    public function connectionTimeout($connection_timeout)
+    {
+        $this->connectionTimeout = $connection_timeout;
+
+        return $this;
+    }
+
+    public function getReadWriteTimeout()
+    {
+        return $this->readWriteTimeout;
+    }
+
+    public function readWriteTimeout($read_write_timeout)
+    {
+        $this->readWriteTimeout = $read_write_timeout;
+
+        return $this;
+    }
+
+    public function getKeepalive()
+    {
+        return $this->keepalive;
+    }
+
+    public function keepalive($keepalive)
+    {
+        $this->keepalive = $keepalive;
+
+        return $this;
+    }
+
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+    public function context($context)
+    {
+        $this->context = $context;
+
+        return $this;
     }
 }
