@@ -8,7 +8,6 @@
  */
 namespace EventBand\Transport\Amqp;
 
-use Che\LogStock\LoggerFactory;
 use EventBand\Transport\Amqp\Driver\EventConversionException;
 use EventBand\Transport\Amqp\Driver\MessageEventConverter;
 use EventBand\Transport\Amqp\Driver\AmqpDriver;
@@ -18,6 +17,8 @@ use EventBand\Transport\EventPublisher;
 use EventBand\Transport\PublishEventException;
 use EventBand\Routing\EventRouter;
 use EventBand\Event;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * Event publisher for AMQP drivers
@@ -44,7 +45,7 @@ class AmqpPublisher implements EventPublisher
      */
     public function __construct(AmqpDriver $driver, MessageEventConverter $converter, $exchange,
                                 EventRouter $router = null, $persistent = true,
-                                $mandatory = false, $immediate = false)
+                                $mandatory = false, $immediate = false, LoggerInterface $logger = null)
     {
         $this->driver = $driver;
         $this->converter = $converter;
@@ -53,7 +54,7 @@ class AmqpPublisher implements EventPublisher
         $this->persistent = $persistent;
         $this->mandatory = $mandatory;
         $this->immediate = $immediate;
-        $this->logger = LoggerFactory::getLogger(__CLASS__);
+        $this->logger = $logger ?: new NullLogger();
     }
 
     /**

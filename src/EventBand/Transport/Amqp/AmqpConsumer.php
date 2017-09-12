@@ -8,7 +8,6 @@
  */
 namespace EventBand\Transport\Amqp;
 
-use Che\LogStock\LoggerFactory;
 use EventBand\Transport\Amqp\Driver\MessageConversionException;
 use EventBand\Transport\Amqp\Driver\MessageEventConverter;
 use EventBand\Transport\Amqp\Driver\AmqpDriver;
@@ -17,6 +16,8 @@ use EventBand\Transport\Amqp\Driver\MessageDelivery;
 use EventBand\Transport\EventCallbackException;
 use EventBand\Transport\EventConsumer;
 use EventBand\Transport\ReadEventException;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * Event consumer for AMQP Drivers
@@ -33,12 +34,12 @@ class AmqpConsumer implements EventConsumer
      * @param MessageEventConverter $converter Convert amqp message to event
      * @param string                $queue     Queue name for consumption
      */
-    public function __construct(AmqpDriver $driver, MessageEventConverter $converter, $queue)
+    public function __construct(AmqpDriver $driver, MessageEventConverter $converter, $queue, LoggerInterface $logger = null)
     {
         $this->driver = $driver;
         $this->converter = $converter;
         $this->queue = $queue;
-        $this->logger = LoggerFactory::getLogger(__CLASS__);
+        $this->logger = $logger ?: new NullLogger();
     }
 
     /**

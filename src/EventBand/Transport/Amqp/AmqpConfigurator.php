@@ -8,13 +8,14 @@
  */
 namespace EventBand\Transport\Amqp;
 
-use Che\LogStock\LoggerFactory;
 use EventBand\Transport\Amqp\Definition\AmqpDefinition;
 use EventBand\Transport\Amqp\Driver\AmqpDriver;
 use EventBand\Transport\Amqp\Driver\DriverException;
 use EventBand\Transport\ConfiguratorException;
 use EventBand\Transport\TransportConfigurator;
 use EventBand\Transport\UnsupportedDefinitionException;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * Configurator for AMQP definitions
@@ -24,10 +25,10 @@ class AmqpConfigurator implements TransportConfigurator
     private $driver;
     private $logger;
 
-    public function __construct(AmqpDriver $driver)
+    public function __construct(AmqpDriver $driver, LoggerInterface $logger = null)
     {
         $this->driver = $driver;
-        $this->logger = LoggerFactory::getLogger(__CLASS__);
+        $this->logger = $logger ?: new NullLogger();
     }
 
     /**
