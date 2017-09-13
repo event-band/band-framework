@@ -123,7 +123,7 @@ abstract class ModelBuilder implements \JsonSerializable
         return [
             'name' => $this->name,
             'durable' => $this->durable,
-            'autoDeleted' => $this->autoDelete(),
+            'autoDeleted' => $this->autoDeleted,
             'bindings' => $this->bindings
         ];
     }
