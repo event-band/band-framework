@@ -8,7 +8,6 @@
  */
 namespace EventBand\Transport;
 
-
 /**
  * Exception while reading event
  */

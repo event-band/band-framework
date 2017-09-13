@@ -28,4 +28,6 @@ interface EventConsumer
      * @return void                 On errors while event consumption
      */
     public function consumeEvents(callable $callback, $idleTimeout, $timeout = null);
+
+    public function stop();
 }

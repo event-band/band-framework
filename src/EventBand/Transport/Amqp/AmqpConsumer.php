@@ -16,6 +16,7 @@ use EventBand\Transport\Amqp\Driver\MessageDelivery;
 use EventBand\Transport\EventCallbackException;
 use EventBand\Transport\EventConsumer;
 use EventBand\Transport\ReadEventException;
+use EventBand\Transport\StoppableTransport;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
@@ -85,5 +86,12 @@ class AmqpConsumer implements EventConsumer
 
             return $result;
         };
+    }
+
+    public function stop()
+    {
+        if ($this->driver instanceof StoppableTransport) {
+            $this->driver->stop();
+        }
     }
 }
