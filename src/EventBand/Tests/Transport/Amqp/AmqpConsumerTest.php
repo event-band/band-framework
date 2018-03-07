@@ -220,7 +220,7 @@ class AmqpConsumerTest extends TestCase
     {
         $message = $this->createMock(AmqpMessage::class);
 
-        $delivery = $this->getMockBuilder(MessageDelivery::class)->disableOriginalConstructor()->createMock();
+        $delivery = $this->getMockBuilder(MessageDelivery::class)->disableOriginalConstructor()->getMock();
         $delivery
             ->expects($this->any())
             ->method('getMessage')

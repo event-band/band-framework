@@ -208,7 +208,7 @@ class AmqpConfiguratorTest extends TestCase
         ;
 
         $exception = $this->getMockBuilder(DriverException::class)
-            ->disableOriginalConstructor()->createMock();
+            ->disableOriginalConstructor()->getMock();
         $this->driver
             ->expects($this->any())
             ->method('declareExchange')
