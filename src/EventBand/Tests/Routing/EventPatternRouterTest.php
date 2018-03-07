@@ -11,7 +11,7 @@ namespace EventBand\Tests\Routing;
 use EventBand\Event;
 use EventBand\Routing\EventPatternRouter;
 use EventBand\Routing\EventRoutingException;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 class EventPatternRouterTest extends TestCase
 {
@@ -49,7 +49,7 @@ class EventPatternRouterTest extends TestCase
     public function routerReplacement()
     {
         $router = new EventPatternRouter('foo.{name}.bar.{name}');
-        $event = $this->getMock('EventBand\Event');
+        $event = $this->createMock('EventBand\Event');
         $event
             ->expects($this->any())
             ->method('getName')
@@ -82,7 +82,7 @@ class EventPatternRouterTest extends TestCase
     public function routeReplaceNotExisting()
     {
         $router = new EventPatternRouter('{foo}');
-        $event = $this->getMock(Event::class);
+        $event = $this->createMock(Event::class);
 
         $router->routeEvent($event);
     }

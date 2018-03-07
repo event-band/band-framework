@@ -13,7 +13,7 @@ use EventBand\Serializer\SerializerException;
 use EventBand\Serializer\UnexpectedResultException;;
 use EventBand\Serializer\UnsupportedEventException;
 use EventBand\Serializer\WrongFormatException;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 class NativeEventSerializerTest extends TestCase
 {
@@ -49,6 +49,8 @@ class NativeEventSerializerTest extends TestCase
         try {
             $this->serializer->serializeEvent($event);
         } catch (UnsupportedEventException $e) {
+            $this->markTestSkipped();
+
             return;
         }
 
@@ -64,6 +66,8 @@ class NativeEventSerializerTest extends TestCase
         try {
             $this->serializer->serializeEvent($event);
         } catch (UnsupportedEventException $e) {
+            $this->markTestSkipped();
+
             return;
         }
 
@@ -87,6 +91,8 @@ class NativeEventSerializerTest extends TestCase
         try {
             $this->serializer->deserializeEvent(new EventMock('event.name', 'exception'));
         } catch (SerializerException $e) {
+            $this->markTestSkipped();
+
             return;
         }
 
@@ -101,6 +107,8 @@ class NativeEventSerializerTest extends TestCase
         try {
             $this->serializer->deserializeEvent('foo');
         } catch (WrongFormatException $e) {
+            $this->markTestSkipped();
+
             return;
         }
 
@@ -115,6 +123,8 @@ class NativeEventSerializerTest extends TestCase
         try {
             $this->serializer->deserializeEvent(serialize(new \DateTime()));
         } catch (UnexpectedResultException $e) {
+            $this->markTestSkipped();
+
             return;
         }
 

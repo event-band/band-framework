@@ -16,7 +16,7 @@ use EventBand\Transport\Amqp\Driver\AmqpDriver;
 use EventBand\Transport\Amqp\Driver\DriverException;
 use EventBand\Transport\ConfiguratorException;
 use EventBand\Transport\UnsupportedDefinitionException;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 class AmqpConfiguratorTest extends TestCase
 {
@@ -34,7 +34,7 @@ class AmqpConfiguratorTest extends TestCase
      */
     protected function setUp()
     {
-        $this->driver = $this->getMock(AmqpDriver::class);
+        $this->driver = $this->createMock(AmqpDriver::class);
         $this->configurator = new AmqpConfigurator($this->driver);
     }
 
@@ -43,7 +43,7 @@ class AmqpConfiguratorTest extends TestCase
      */
     public function supportsAmqpDefinition()
     {
-        $definition = $this->getMock(AmqpDefinition::class);
+        $definition = $this->createMock(AmqpDefinition::class);
 
         $this->assertTrue($this->configurator->supportsDefinition($definition));
         $this->assertFalse($this->configurator->supportsDefinition(new \DateTime()));
@@ -61,7 +61,7 @@ class AmqpConfiguratorTest extends TestCase
         $queue1 = $this->createQueue('queue1');
         $queue2 = $this->createQueue('queue2');
 
-        $definition = $this->getMock(AmqpDefinition::class);
+        $definition = $this->createMock(AmqpDefinition::class);
         $definition
             ->expects($this->any())
             ->method('getExchanges')
@@ -107,7 +107,7 @@ class AmqpConfiguratorTest extends TestCase
         $exchange1 = $this->createExchange('exchange1', ['exchange2' => ['routing2']]);
         $exchange2 = $this->createExchange('exchange2', ['exchange1' => ['routing1']]);
 
-        $definition = $this->getMock(AmqpDefinition::class);
+        $definition = $this->createMock(AmqpDefinition::class);
         $definition
             ->expects($this->any())
             ->method('getExchanges')
@@ -150,7 +150,7 @@ class AmqpConfiguratorTest extends TestCase
         $queue1 = $this->createQueue('queue1', ['exchange1' => ['routing1']]);
         $queue2 = $this->createQueue('queue2', ['exchange2' => ['routing2']]);
 
-        $definition = $this->getMock(AmqpDefinition::class);
+        $definition = $this->createMock(AmqpDefinition::class);
         $definition
             ->expects($this->any())
             ->method('getExchanges')
@@ -199,8 +199,8 @@ class AmqpConfiguratorTest extends TestCase
      */
     public function configurationDriverException()
     {
-        $exchange = $this->getMock(ExchangeDefinition::class);
-        $definition = $this->getMock(AmqpDefinition::class);
+        $exchange = $this->createMock(ExchangeDefinition::class);
+        $definition = $this->createMock(AmqpDefinition::class);
         $definition
             ->expects($this->any())
             ->method('getExchanges')
@@ -228,7 +228,7 @@ class AmqpConfiguratorTest extends TestCase
 
     private function createExchange($name, array $bindings = [])
     {
-        $exchange = $this->getMock(ExchangeDefinition::class);
+        $exchange = $this->createMock(ExchangeDefinition::class);
         $exchange
             ->expects($this->any())
             ->method('getName')
@@ -245,7 +245,7 @@ class AmqpConfiguratorTest extends TestCase
 
     private function createQueue($name, array $bindings = [])
     {
-        $queue = $this->getMock(QueueDefinition::class);
+        $queue = $this->createMock(QueueDefinition::class);
         $queue
             ->expects($this->any())
             ->method('getName')
