@@ -11,7 +11,7 @@ namespace EventBand\Tests;
 use EventBand\BandDispatcher;
 use EventBand\CallbackSubscription;
 use EventBand\Event;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 
 class CallbackSubscriptionTest extends TestCase
@@ -21,8 +21,8 @@ class CallbackSubscriptionTest extends TestCase
      */
     public function dispatchWithCallback()
     {
-        $event = $this->getMock(Event::class);
-        $dispatcher = $this->getMock(BandDispatcher::class);
+        $event = $this->createMock(Event::class);
+        $dispatcher = $this->createMock(BandDispatcher::class);
 
         $subscription = new CallbackSubscription(
             'event.name',

@@ -9,7 +9,7 @@
 namespace EventBand\Tests\Transport\Amqp\Driver;
 
 use EventBand\Transport\Amqp\Driver\CustomAmqpMessage;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 class CustomAmqpMessageTest extends TestCase
 {

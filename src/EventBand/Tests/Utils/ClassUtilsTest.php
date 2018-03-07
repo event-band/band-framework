@@ -9,7 +9,7 @@
 namespace EventBand\Tests\Utils;
 
 use EventBand\Utils\ClassUtils;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 class ClassUtilsTest extends TestCase
 {

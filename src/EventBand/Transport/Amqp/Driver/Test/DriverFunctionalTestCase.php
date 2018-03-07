@@ -12,7 +12,7 @@ use EventBand\Transport\Amqp\Driver\AmqpDriver;
 use EventBand\Transport\Amqp\Driver\AmqpMessage;
 use EventBand\Transport\Amqp\Driver\MessageDelivery;
 use EventBand\Transport\Amqp\Driver\MessagePublication;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 
 abstract class DriverFunctionalTestCase extends TestCase
 {
@@ -57,7 +57,7 @@ abstract class DriverFunctionalTestCase extends TestCase
      */
     protected function createMessage($body = '', array $properties = [])
     {
-        $message = $this->getMock(AmqpMessage::class);
+        $message = $this->createMock(AmqpMessage::class);
         $message
             ->expects($this->any())
             ->method('getBody')
